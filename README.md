@@ -1,6 +1,5 @@
-# BottomSheetMenu [![Release](https://jitpack.io/v/buggysofts-com/BottomSheetMenu.svg)](https://jitpack.io/#buggysofts-com/BottomSheetMenu)
-
-A powerful &amp; customizable menu implementation for android. It supports any level of nested menu structures along with custom header and footer views, and much more. Follow the steps below to import the library to your project. You will also find some sample codes.
+# AndroidZip [![](https://jitpack.io/v/buggysofts-com/AndroidZip.svg)](https://jitpack.io/#buggysofts-com/AndroidZip)
+A zip explorer library for android that takes <b>DocumentFile</b> object as its source. It uses my **StreamZip** library as its base.
 
 <br />
 
@@ -34,7 +33,7 @@ Finally, add this dependency to your app/module level build.gradle file
 
 dependencies {
     ...
-    implementation 'com.github.buggysofts-com:BottomSheetMenu:v1.0.4'
+    implementation 'com.github.buggysofts-com:AndroidZip:1.0.0'
 }
 ```
 And you are done importing the library.
@@ -43,97 +42,61 @@ And you are done importing the library.
 
 ## Sample codes
 
-To create a minimal bottom sheet menu...
-```
-BottomSheetMenu bottomSheetMenu = new BottomSheetMenu(
-  MainActivity.this,
-  R.menu.sample_menu,
-  new BottomSheetMenu.MenuItemClickListener() {
-      @Override
-      public void onClick(MenuItem item) {
-          Toast.makeText(MainActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
-      }
-  }
-).show();
-```
-<br />
+To create an instance  do something like...
 
-You can use methods that follow builder pattern to set properties of different components of the menu. For example the following code snippet sets background, divider, menu icon place holder (in case a menu item does not have an icon), expand icon (for indicating submenu of a menu item), a title and finally it shows the menu. There are other constructors where you can set these properties all at once.
 ```
-bottomSheetMenu
-  .menuBackground(
-      AppCompatResources.getDrawable(
-        MainActivity.this,
-        R.drawable.menu_bg
-      )
-  )
-  .dividerDrawable(
-      BottomSheetMenu.getSystemDefaultDivider(
-          MainActivity.this
-      )
-  )
-  .menuIconPlaceHolder(
-      AppCompatResources.getDrawable(
-          MainActivity.this,
-          R.drawable.ic_menu_item
-      )
-  )
-  .menuExpandIcon(
-      AppCompatResources.getDrawable(
-          MainActivity.this,
-         R.drawable.ic_arrow_forward
-      )
-  )
-  .menuTitle("Property Setting Demo")
-  .show();
-```
-You can obtain various default properties with the static methods available in the BottomSheetMenu class, for example ```BottomSheetMenu.getDefaultExpandIcon(context)``` returns the default drawable used as the expand icon. There are other methods for other properties as well. But you don't need to explicitly call these methods, these properties are set by default.
-
-<br />
-
-The menu supports custom header and footer views. You can select different header and footer views for different menu items, and also for initial call to ```show()```. There may be many use cases for different header and footer views, such as description of the the submenu of a menu item can be placed as the footer view. See the code snippet below to know how you can define these selectors.
-```
-bottomSheetMenu
-    .headerViewSelector(
-        new BottomSheetMenu.ViewSelector() {
-            @Nullable
-            @Override
-            public View getInitialView() {
-                return getLayoutInflater().inflate(R.layout.initial_menu_header, null);
-            }
-
-            @Nullable
-            @Override
-            public View selectViewForItem(MenuItem item) {
-                int itemId = item.getItemId();
-                if (itemId == R.id.menu_image) {
-                    return getLayoutInflater().inflate(R.layout.image_info_layout, null);
-                } else if (itemId == R.id.menu_video) {
-                    return getLayoutInflater().inflate(R.layout.video_info_layout, null);
-                } else {
-                    return getLayoutInflater().inflate(R.layout.raw_file_info_layout, null);
-                }
-            }
+AndroidZip zip = null;
+try {
+    zip = new AndroidZip(MainActivity.this, documentFile);
+} catch (Exception e) {
+    e.printStackTrace();
+} finally {
+    if(zip != null){
+        List<ZipEntry> entries = zip.entries();
+        for (int i = 0; i < entries.size(); i++) {
+            // do something
         }
-    )
-    .menuTitle("View Selecting Demo")
-    .show();
+    }
+}
 ```
-The above code selects different views for different selected menu item(having submenu). Also, it selects an initial header view. Similarly, you can set footer views with ```footerViewSelector(...)``` method.
 
 <br />
 
-## Images
-Here are some example images of the menu containing a header and a footer view. The one above the top divider line is the header view, and the one below the bottom divider line is the footer view. You can select your desider header or footer views, or customize the menu styles and behaviours by following the topics above. Note, the styling applied to the menu does not apply on header and footer views, they are external views and you should apply necessary styling to them before using them in the menu.
+Then you can use different methods that are similar to the standard java ZipFile class. For example here are the
+publicly available methods.
 
-Root menu:
-![Root menu](/app/src/main/res/drawable/root_menu.png)
+- ```size()``` Returns the total number of available entries.
+- ```getComment()``` Returns the principal comment of the zip file.
+- ```entries()``` Returns all the available entries as a list of <b>ZipEntry</b>.
+- ```getInputStream(...)``` Opens(and returns) a bounded input stream currently positioning at the start of the
+  requested entry's data block.
+- ```close()``` Closes the zip file, and any subsequent call to <b>getInputStream(...)</b> will throw an exception.
+  However, other methods of the class that are saved in memory will still be available after call to <b>close()</b>.
 
-Nested submenu:
-![Nested submenu](/app/src/main/res/drawable/menu_level_2.png)
+**Please Note**
 
+- The **ZipEntry** we mentioned above is a part of this library and has similar methods as the standard **ZipEntry**
+  class
+  in java jdk.
+- If you do not have a **ZipEntry** instance, and only have the name of the entry, you can use the minimal
+  constructor (
+  i.e.  ```ZipEntry(String name)```) to obtain an input stream. Of course, you would get an exception if the entry does
+  not
+  exist.
 
 <br />
+
+### Performance
+
+The performance is similar to the Standard **ZipFile** class. Before this, the only way to read a zip file in this kind
+of situation was to use the **ZipInputStream** class which basically reads every byte in its way to get to the next
+entry. That is, to list, or to get data of all the entries of a zip file, it is equivalent of reading the whole file.
+Imagine you have to read some metadata within some big zip files, may be 100 zip files, think how much time it would
+take!
+Of course, you can use some caching technique, which I was doing for a long time, in fact there is still a library in
+the git repo, which does exactly that. But in any way, that is not enough, it takes a lot of memory, and the performance
+is limited to many constraints.
+
 <br />
 
 Please share & rate the library if you find it useful.

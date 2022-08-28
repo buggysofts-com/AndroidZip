@@ -51,7 +51,7 @@ public class AndroidZip extends StreamZip {
      * Get a list of all the entries available in the zip file.
      */
     @Override
-    public List<ZipEntry> entries() throws Exception {
+    public List<ZipEntry> entries() {
         return super.entries();
     }
 
