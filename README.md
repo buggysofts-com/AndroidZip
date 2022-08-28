@@ -1,5 +1,5 @@
 # AndroidZip [![](https://jitpack.io/v/buggysofts-com/AndroidZip.svg)](https://jitpack.io/#buggysofts-com/AndroidZip)
-A zip explorer library for android that takes <b>DocumentFile</b> object as its source. It uses my **StreamZip** library as its base.
+A zip explorer library for android that uses <b>DocumentFile</b> object as its source. It uses my **StreamZip** library as its base. Its functionalities are similar to the standard java **ZipFile** class.
 
 <br />
 
