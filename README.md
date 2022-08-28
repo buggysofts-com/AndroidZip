@@ -27,13 +27,14 @@ dependencyResolutionManagement {
     }
 }
 ```
-Finally, add this dependency to your app/module level build.gradle file
+Finally, add these two dependencies to your app/module level build.gradle file
 ```
 ...
 
 dependencies {
     ...
-    implementation 'com.github.buggysofts-com:AndroidZip:1.0.0'
+    implementation 'com.github.buggysofts-com:StreamZip:v1.0.0'
+    implementation 'com.github.buggysofts-com:AndroidZip:v1.0.0'
 }
 ```
 And you are done importing the library.
