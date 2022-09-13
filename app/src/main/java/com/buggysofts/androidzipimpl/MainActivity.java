@@ -14,7 +14,6 @@ import com.buggysofts.streamzip.ZipEntry;
 
 import java.util.List;
 
-
 public class MainActivity extends AppCompatActivity {
     // log tag
     private static final String LOG_TAG = "MainActivity";
