@@ -25,8 +25,8 @@ public class AndroidZip extends StreamZip {
 
     /**
      * Get a particular entry.
-     * */
-    public ZipEntry getEntry(@NonNull String name){
+     */
+    public ZipEntry getEntry(@NonNull String name) {
         return super.getEntry(name);
     }
 

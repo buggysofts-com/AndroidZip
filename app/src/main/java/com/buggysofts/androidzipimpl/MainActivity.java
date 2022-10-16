@@ -30,14 +30,14 @@ public class MainActivity extends AppCompatActivity {
                         DocumentFile.fromSingleUri(MainActivity.this, uri) :
                         null;
 
-                if(documentFile != null){
+                if (documentFile != null) {
                     AndroidZip zip = null;
                     try {
                         zip = new AndroidZip(MainActivity.this, documentFile);
 
                         List<ZipEntry> entries = zip.entries();
                         long e = System.currentTimeMillis();
-                        for (int i = 0; entries != null &&  i < entries.size(); ++i) {
+                        for (int i = 0; entries != null && i < entries.size(); ++i) {
                             ZipEntry zipEntry = entries.get(i);
                             if (!zipEntry.isDirectory()) {
                                 Log.d(
