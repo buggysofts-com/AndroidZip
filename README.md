@@ -33,8 +33,8 @@ Finally, add these two dependencies to your app/module level build.gradle file
 
 dependencies {
     ...
-    implementation 'com.github.buggysofts-com:StreamZip:v1.0.4'
-    implementation 'com.github.buggysofts-com:AndroidZip:v1.0.4'
+    implementation 'com.github.buggysofts-com:StreamZip:v1.0.6'
+    implementation 'com.github.buggysofts-com:AndroidZip:v1.0.6'
 }
 ```
 And you are done importing the library.

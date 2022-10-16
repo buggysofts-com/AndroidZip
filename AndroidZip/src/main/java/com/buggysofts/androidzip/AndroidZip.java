@@ -3,12 +3,11 @@ package com.buggysofts.androidzip;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.documentfile.provider.DocumentFile;
 
 import com.buggysofts.streamzip.StreamZip;
 import com.buggysofts.streamzip.ZipEntry;
-
-import org.jetbrains.annotations.Nullable;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -24,8 +23,9 @@ public class AndroidZip extends StreamZip {
     }
 
     /**
-     * Get a particular entry.
+     * Get a particular entry with the specified name, or null if not present.
      */
+    @Nullable
     public ZipEntry getEntry(@NonNull String name) {
         return super.getEntry(name);
     }
